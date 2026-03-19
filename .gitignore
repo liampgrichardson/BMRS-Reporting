@@ -1,0 +1,7 @@
+# venv folders
+venv/
+.venv/
+
+# pycache folders
+__pycache__/
+*.pyc

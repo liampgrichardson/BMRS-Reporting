@@ -9,7 +9,7 @@ import requests
 BASE_URL = "https://data.elexon.co.uk/bmrs/api/v1"
 
 
-def _get_settlement_system_prices(settlement_date: str) -> pd.DataFrame:
+def get_settlement_system_prices(settlement_date: str) -> pd.DataFrame:
     """
     Fetch settlement system prices for all 48 settlement periods on a given date.
     Consolidates the old B1770 (Imbalance Prices) and B1780 (Imbalance Volumes) endpoints.
@@ -27,7 +27,7 @@ def get_b1770_day(settlement_date: str):
     :param settlement_date: "YYYY-MM-DD"
     :return: pandas dataframe with columns: Settlement Period, ImbalancePriceAmount
     """
-    df = _get_settlement_system_prices(settlement_date)
+    df = get_settlement_system_prices(settlement_date)
     result = df[["settlementPeriod", "systemBuyPrice"]].copy()
     result.columns = ["Settlement Period", "ImbalancePriceAmount"]
     return result.reset_index(drop=True)
@@ -40,7 +40,7 @@ def get_b1780_day(settlement_date: str):
     :param settlement_date: "YYYY-MM-DD"
     :return: pandas dataframe with columns: Settlement Period, Imbalance Quantity (MAW)
     """
-    df = _get_settlement_system_prices(settlement_date)
+    df = get_settlement_system_prices(settlement_date)
     result = df[["settlementPeriod", "netImbalanceVolume"]].copy()
     result.columns = ["Settlement Period", "Imbalance Quantity (MAW)"]
     return result.reset_index(drop=True)

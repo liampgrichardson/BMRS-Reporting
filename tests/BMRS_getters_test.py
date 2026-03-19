@@ -1,42 +1,26 @@
-from unittest import TestCase
-import Daily_report.BMRS_getters as bmrs
+import unittest
+from Daily_report import BMRS_getters as bmrs
 
-version_number = "v1"  # v1 or V1 (case-insensitive)
-service_type = "csv"  # csv or xml
-settlement_date = "2023-01-02"
+SETTLEMENT_DATE = "2023-01-02"
 
-
-class TestGetB1770Day(TestCase):
+class TestBMRSGetters(unittest.TestCase):
     def test_get_b1770_day(self):
         """
-        tests the column names and number of rows of the dataframe returned by get_b1770_day
-
-        :return:
+        Test that get_b1770_day returns a DataFrame with correct columns and 48 rows.
         """
-        b1770_known_cols = ['*DocumentID', 'DocumentRevNum', 'ActiveFlag', 'ProcessType', 'DocumentType', 'Resolution',
-                            'CurveType', 'PriceCategory', 'ImbalancePriceAmount', 'SettlementPeriod', 'SettlementDate',
-                            'ControlArea', 'BusinessType', 'TimeSeriesID', 'DocumentStatus']
-        rm_list = ['PriceCategory', 'TimeSeriesID']
-        df = bmrs.get_b1770_day(settlement_date)
-        # test column names
-        self.assertEqual(set(df.columns), set(b1770_known_cols).difference(rm_list))
-        # test number of rows
+        df = bmrs.get_b1770_day(SETTLEMENT_DATE)
+        expected_cols = ["Settlement Period", "ImbalancePriceAmount"]
+        self.assertEqual(list(df.columns), expected_cols)
         self.assertEqual(len(df), 48)
 
-
-class TestGetB1780Day(TestCase):
     def test_get_b1780_day(self):
         """
-        tests the column names and number of rows of the dataframe returned by get_b1780_day
-
-        :return:
+        Test that get_b1780_day returns a DataFrame with correct columns and 48 rows.
         """
-        b1780_known_cols = ['*Time Series ID', 'Business Type', 'Control Area', 'Settlement Date', 'Settlement Period',
-                            'Imbalance Quantity (MAW)', 'Curve Type', 'Resolution', 'Document Type', 'Process Type',
-                            'Active Flag', 'Document Status', 'Document ID', 'Document RevNum',
-                            'Imbalance Quantity Direction']
-        df = bmrs.get_b1780_day(settlement_date)
-        # test column names
-        self.assertEqual(set(df.columns), set(b1780_known_cols))
-        # test number of rows
+        df = bmrs.get_b1780_day(SETTLEMENT_DATE)
+        expected_cols = ["Settlement Period", "Imbalance Quantity (MAW)"]
+        self.assertEqual(list(df.columns), expected_cols)
         self.assertEqual(len(df), 48)
+
+if __name__ == "__main__":
+    unittest.main()
