@@ -1,0 +1,14 @@
+# venv folders
+venv/
+.venv/
+
+# pycache folders
+__pycache__/
+*.pyc
+
+# coverage reports
+htmlcov/
+.coverage
+
+# pylint reports
+pylint_report.txt
